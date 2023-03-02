@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<EmpresasDbContext>(options => {
-    options.UseInMemoryDatabase("Empresas");
+    options.UseSqlite("Data Source =empresas.db");
 });
 
 var app = builder.Build();
