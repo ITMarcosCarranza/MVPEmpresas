@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<EmpresasDbContext>(options => {
-    options.UseSqlite("Data Source =empresas.db");
+    options.UseSqlite("Data Source =companies.db");
 });
 
 var app = builder.Build();
@@ -15,8 +15,7 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
+    app.UseHsts();}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
