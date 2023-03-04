@@ -60,6 +60,6 @@ namespace MVPEmpresas.Models
         [RegularExpression("[0-9]{10,12}",ErrorMessage ="El formato telefonico no es valido")]
         public string Cellphone { get; set; }
 
-
+        public int MyProperty { get; set; }
     }
 }
