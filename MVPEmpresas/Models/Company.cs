@@ -61,9 +61,5 @@ namespace MVPEmpresas.Models
         public string Cellphone { get; set; }
 
 
-
-
-
-
     }
 }
