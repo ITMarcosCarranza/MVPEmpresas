@@ -10,14 +10,39 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVPEmpresas.Migrations
 {
     [DbContext(typeof(EmpresasDbContext))]
-    [Migration("20230304230302_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230305003012_categorias")]
+    partial class categorias
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
+
+            modelBuilder.Entity("MVPEmpresas.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CategoryId");
+
+                    b.HasIndex("CompanyId")
+                        .IsUnique();
+
+                    b.ToTable("Category");
+                });
 
             modelBuilder.Entity("MVPEmpresas.Models.Company", b =>
                 {
@@ -76,6 +101,23 @@ namespace MVPEmpresas.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("MVPEmpresas.Models.Category", b =>
+                {
+                    b.HasOne("MVPEmpresas.Models.Company", "Company")
+                        .WithOne("Category")
+                        .HasForeignKey("MVPEmpresas.Models.Category", "CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("MVPEmpresas.Models.Company", b =>
+                {
+                    b.Navigation("Category")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

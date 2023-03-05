@@ -35,7 +35,7 @@ namespace MVPEmpresas.Controllers
             }
 
             var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
             if (category == null)
             {
                 return NotFound();
@@ -55,7 +55,7 @@ namespace MVPEmpresas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,isActive")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryId,Description,isActive")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -87,9 +87,9 @@ namespace MVPEmpresas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,isActive")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Description,isActive")] Category category)
         {
-            if (id != category.Id)
+            if (id != category.CategoryId)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace MVPEmpresas.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!CategoryExists(category.CategoryId))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace MVPEmpresas.Controllers
             }
 
             var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
             if (category == null)
             {
                 return NotFound();
@@ -147,8 +147,7 @@ namespace MVPEmpresas.Controllers
             var category = await _context.Category.FindAsync(id);
             if (category != null)
             {
-                category.isActive = false;
-                _context.Update(category);
+                _context.Category.Remove(category);
             }
             
             await _context.SaveChangesAsync();
@@ -157,7 +156,7 @@ namespace MVPEmpresas.Controllers
 
         private bool CategoryExists(int id)
         {
-          return (_context.Category?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Category?.Any(e => e.CategoryId == id)).GetValueOrDefault();
         }
     }
 }

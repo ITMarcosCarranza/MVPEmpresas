@@ -18,15 +18,14 @@ namespace MVPEmpresas.Controllers
             _context = context;
         }
 
- 
+        // GET: Companies
         public async Task<IActionResult> Index()
         {
-              return _context.Companies != null ? 
-                          View(await _context.Companies.ToListAsync()) :
-                          Problem("Entity set 'EmpresasDbContext.Companies'  is null.");
+            var empresasDbContext = _context.Companies.Include(c => c.Category);
+            return View(await empresasDbContext.ToListAsync());
         }
 
-    
+        // GET: Companies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Companies == null)
@@ -35,6 +34,7 @@ namespace MVPEmpresas.Controllers
             }
 
             var company = await _context.Companies
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
             {
@@ -44,16 +44,19 @@ namespace MVPEmpresas.Controllers
             return View(company);
         }
 
-    
+        // GET: Companies/Create
         public IActionResult Create()
         {
+            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "Description");
             return View();
         }
 
-
+        // POST: Companies/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Telephone,Cellphone,Name,Alias,Address,Country,State,City,Contact,Email,Key")] Company company)
+        public async Task<IActionResult> Create([Bind("Id,Key,Name,Alias,Address,Country,State,City,Contact,Email,Telephone,Cellphone,CategoryId")] Company company)
         {
             if (ModelState.IsValid)
             {
@@ -61,10 +64,11 @@ namespace MVPEmpresas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "Description", company.CategoryId);
             return View(company);
         }
 
-
+        // GET: Companies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Companies == null)
@@ -77,13 +81,16 @@ namespace MVPEmpresas.Controllers
             {
                 return NotFound();
             }
+            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "Description", company.CategoryId);
             return View(company);
         }
 
-
+        // POST: Companies/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Telephone,Cellphone,Name,Alias,Address,Country,State,City,Contact,Email,Key")] Company company)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Key,Name,Alias,Address,Country,State,City,Contact,Email,Telephone,Cellphone,CategoryId")] Company company)
         {
             if (id != company.Id)
             {
@@ -110,10 +117,11 @@ namespace MVPEmpresas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "Description", company.CategoryId);
             return View(company);
         }
 
-
+        // GET: Companies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Companies == null)
@@ -122,6 +130,7 @@ namespace MVPEmpresas.Controllers
             }
 
             var company = await _context.Companies
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
             {
@@ -131,7 +140,7 @@ namespace MVPEmpresas.Controllers
             return View(company);
         }
 
- 
+        // POST: Companies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
