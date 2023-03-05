@@ -10,14 +10,33 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVPEmpresas.Migrations
 {
     [DbContext(typeof(EmpresasDbContext))]
-    [Migration("20230304230302_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230305031007_siDBSet")]
+    partial class siDBSet
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
+
+            modelBuilder.Entity("MVPEmpresas.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Category");
+                });
 
             modelBuilder.Entity("MVPEmpresas.Models.Company", b =>
                 {
@@ -33,6 +52,9 @@ namespace MVPEmpresas.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Cellphone")
                         .IsRequired()
@@ -75,7 +97,20 @@ namespace MVPEmpresas.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("MVPEmpresas.Models.Company", b =>
+                {
+                    b.HasOne("MVPEmpresas.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,7 @@
-﻿using Microsoft.Build.Framework;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Build.Framework;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribute;
 
 namespace MVPEmpresas.Models
@@ -60,6 +62,9 @@ namespace MVPEmpresas.Models
         [RegularExpression("[0-9]{10,12}",ErrorMessage ="El formato telefonico no es valido")]
         public string Cellphone { get; set; }
 
+        public int CategoryId { get; set; }
 
+        [Display(Name ="Categoria")]
+        public Category? Category { get; set; }
     }
 }
