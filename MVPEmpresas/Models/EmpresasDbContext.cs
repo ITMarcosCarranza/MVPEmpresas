@@ -8,6 +8,7 @@ namespace MVPEmpresas.Models
         public EmpresasDbContext(DbContextOptions<EmpresasDbContext> options)
             : base( options) { }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<MVPEmpresas.Models.Category> Category { get; set; } = default!;
+        public DbSet<MVPEmpresas.Models.Category> Category { get; set; } = default!;  
+       
     }
 }

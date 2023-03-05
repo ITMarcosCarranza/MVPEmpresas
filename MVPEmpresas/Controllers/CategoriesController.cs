@@ -147,7 +147,8 @@ namespace MVPEmpresas.Controllers
             var category = await _context.Category.FindAsync(id);
             if (category != null)
             {
-                _context.Category.Remove(category);
+                category.isActive = false;
+                _context.Update(category);
             }
             
             await _context.SaveChangesAsync();

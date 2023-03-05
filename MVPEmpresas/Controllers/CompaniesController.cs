@@ -47,7 +47,10 @@ namespace MVPEmpresas.Controllers
         // GET: Companies/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "Description");
+            ViewData["CategoryId"] = new SelectList(
+                _context.Category.Where(c => c.isActive == true), "CategoryId", "Description"
+            );
+                
             return View();
         }
 

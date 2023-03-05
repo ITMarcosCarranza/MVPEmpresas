@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Build.Framework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribute;
@@ -62,6 +63,8 @@ namespace MVPEmpresas.Models
         public string Cellphone { get; set; }
 
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+
+        [Display(Name ="Categoria")]
+        public Category? Category { get; set; }
     }
 }

@@ -94,8 +94,7 @@ namespace MVPEmpresas.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId")
-                        .IsUnique();
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Companies");
                 });
@@ -103,18 +102,12 @@ namespace MVPEmpresas.Migrations
             modelBuilder.Entity("MVPEmpresas.Models.Company", b =>
                 {
                     b.HasOne("MVPEmpresas.Models.Category", "Category")
-                        .WithOne("Company")
-                        .HasForeignKey("MVPEmpresas.Models.Company", "CategoryId")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("MVPEmpresas.Models.Category", b =>
-                {
-                    b.Navigation("Company")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

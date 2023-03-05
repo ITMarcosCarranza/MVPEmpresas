@@ -20,6 +20,5 @@ namespace MVPEmpresas.Models
         public bool isActive { get; set; } = true;
 
 
-        public Company Company { get; set; }
     }
 }
